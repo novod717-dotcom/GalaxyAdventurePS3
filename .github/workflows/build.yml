@@ -1,0 +1,30 @@
+
+name: Galaxy Adventure PS3
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract project
+        run: |
+          unzip -q GalaxyAdventurePS3-projeto-expandido.zip -d build-src
+
+      - name: Compile and test
+        run: |
+          cd build-src/GalaxyAdventurePS3
+          make test
+
+      - name: Save build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: galaxy-adventure-tests
+          path: |
+            build-src/GalaxyAdventurePS3/galaxy_logic_test
+            build-src/GalaxyAdventurePS3/galaxy_tests
+            
